@@ -135,3 +135,35 @@ section {
 .controls #reset {
     display: none;
 }
+.controls button{
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: 10px 20px;
+    margin: 5px;
+    min-width: 100px;
+    /* border: none; */
+    border-style: solid;
+    border-radius: 10px;
+ 
+    cursor: pointer;
+    color: white;
+    transition: background-color 0.5s ease;
+}
+#startBtn{
+    border-color:white;
+}
+#startBtn:hover{
+    background-color: hsl(115, 100%, 30%);
+}
+/* #stopBtn{
+    background-color:  hsl(0, 0%, 0%)
+} */
+#stopBtn:hover{
+    background-color: hsl(10, 90%, 40%);
+}
+/* #resetBtn{
+    background-color: hsl(0, 0%, 0%)
+} */
+#resetBtn:hover{
+    background-color: hsl(205, 90%, 50%);
+}

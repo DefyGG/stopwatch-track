@@ -1,69 +1,49 @@
-// variables
-
-let workTittle = document.getElementById('work');
-let breakTittle = document.getElementById('break');
-
-let workTime = 25;
-let breakTime = 5;
-
-let seconds = "00"
-
+// variable
 // display
-window.onload = () => {
-    document.getElementById('minutes').innerHTML = workTime;
-    document.getElementById('seconds').innerHTML = seconds;
+const display = document.getElementById("display");
+let timer = null;
+let startTime = 0;
+let elapsedTime = 0;
+let isRunning = false;
 
-    workTittle.classList.add('active');
+function start(){
+    if(!isRunning){
+        startTime = Date.now() - elapsedTime;
+        timer = setInterval(update, 10);
+        isRunning = true;
+    }
 }
 
-// start timer
-function start() {
-    // change button
-    document.getElementById('start').style.display = "none";
-    document.getElementById('reset').style.display = "block";
-
-    // change the time
-    seconds = 59;
-
-    let workMinutes = workTime - 1;
-    let breakMinutes = breakTime - 1;
-
-    breakCount = 0;
-
-    // countdown
-    let timerFunction = () => {
-        //change the display
-        document.getElementById('minutes').innerHTML = workMinutes;
-        document.getElementById('seconds').innerHTML = seconds;
-
-        // start
-        seconds = seconds - 1;
-
-        if(seconds === 0) {
-            workMinutes = workMinutes - 1;
-            if(workMinutes === -1 ){
-                if(breakCount % 2 === 0) {
-                    // start break
-                    workMinutes = breakMinutes;
-                    breakCount++
-
-                    // change the painel
-                    workTittle.classList.remove('active');
-                    breakTittle.classList.add('active');
-                }else {
-                    // continue work
-                    workMinutes = workTime;
-                    breakCount++
-
-                    // change the painel
-                    breakTittle.classList.remove('active');
-                    workTittle.classList.add('active');
-                }
-            }
-            seconds = 59;
-        }
+function stop(){
+    if(isRunning){
+        clearInterval(timer);
+        elapsedTime = Date.now() - startTime;
+        isRunning = false;
     }
+}
 
-    // start countdown
-    setInterval(timerFunction, 1000); // 1000 = 1s
+function reset(){
+    clearInterval(timer);
+    startTime = 0;
+    elapsedTime = 0;
+    isRunning = false;    
+    display.textContent = "00:00:00";
+}
+
+function update(){
+    
+    const currentTime = Date.now();
+    elapsedTime = currentTime - startTime;
+
+    let hours = Math.floor(elapsedTime / (1000 * 60 * 60));
+    let minutes = Math.floor(elapsedTime / (1000 * 60) % 60);
+    let seconds = Math.floor(elapsedTime / 1000 % 60);
+    let milliseconds = Math.floor(elapsedTime % 1000 / 10);
+
+    // hours = String(hours).padStart(2, "0");
+    minutes = String(minutes).padStart(2, "0");
+    seconds = String(seconds).padStart(2, "0");
+    milliseconds = String(milliseconds).padStart(2, "0");
+
+    display.textContent = `${minutes}:${seconds}:${milliseconds}`;
 }
