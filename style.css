@@ -167,3 +167,10 @@ section {
 #resetBtn:hover{
     background-color: hsl(205, 90%, 50%);
 }
+
+#indivRunner{
+    background-color: transparent;
+}
+#indivRunner:hover{
+    background-color: hsl(10, 90%, 50%);
+}

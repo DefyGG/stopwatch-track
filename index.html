@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pomodoro Timer</title>
+    <title>Track Timer</title>
 
     <!-- FONT -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,7 +21,13 @@
 </head>
 <body>
     <section>
+
         <div class="container">
+            <div class="controls", style = "margin: 10%;">
+                <h2 style = "color:white">Number of Runners: <input onChange="reset(); addRunner(this.value);" style = "color: white; background-color: transparent; border-color: white; border-radius: 5px; width:5vmin; height:5vmin; text-align:center; font-size: 90%" id="tentacles" name="tentacles" min="1" max="100" value = "1" /> </h2>
+                
+
+            </div>
             <div class="timer">
                 <div class="circle">
                     <div class="time">
@@ -33,12 +39,34 @@
                     </div>
                 </div>
             </div>
-
+            
             <div class="controls">
                 <button id="startBtn" onclick="start()">Start</button>
-                <button id="stopBtn" onclick="stop()">Stop</button>
+                <button id="stopBtn" onclick="stop(-1)">Stop</button>
                 <button id="resetBtn" onclick="reset()">Reset</button>
             </div>
+            <br>
+            <div class="align-items-center scheds "></div>
+            <!-- <table style="border-radius: 20px;border:2px solid white;margin-left:auto;margin-right:auto;table-layout: fixed;width: 100%;" border=1> 
+                <tr style = "border-color: transparent; ">
+                    <td style="padding : 10px; text-align: center;"><p><b>Runner 1</b></p></td>  
+                    <td style="padding : 10px; text-align: center;"><p id="display1">00:00:00</p></td> 
+                    <td style="padding : 10px; text-align: center; "> <button style = "font-size: 1.5rem;
+                        font-weight: bold;
+                        padding: 10px 20px;
+            
+                        min-width: 100px;
+                        /* border: none; */
+                        border-style: solid;
+                        border-radius: 10px;
+                     
+                        /* background-color: hsl(235, 36%, 35%); */
+                        border-color: white;
+                        cursor: pointer;
+                        color: white;
+                        transition: background-color 0.5s ease;" id="indivRunner" onclick="stop(1)">Stop</button> </td> 
+                </tr>
+            </table> -->
         </div>
     </section>
 
