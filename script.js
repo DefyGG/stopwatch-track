@@ -29,6 +29,7 @@ function start(){
 }
 
 function stop(id){
+
     if (id == -1){
         if(isRunning){
             clearInterval(timer);
@@ -40,7 +41,7 @@ function stop(id){
         }
     }
     else{
-        if (runners[id] == true){
+        if (runners[id] == true && isRunning){
             selectedRunner = document.getElementById("display" + id);
             console.log("Stopping runner " + id);
             let [minutes, seconds, milliseconds] = convert(Date.now() - startTime);
@@ -94,7 +95,7 @@ function addRunner(numRunners){
         result += i; 
         result += '</b></p></td> <td style="padding : 10px; text-align: center;"><p id="display'
         result += i; 
-        result += '">00:00:00</p></td> <td style="padding : 10px; text-align: center; "> <button style = "font-size: 1.5rem;font-weight: bold;padding: 10px 20px;width: 100%; border-style: solid; font-size: 100%; border-radius: 10px;border-color: white;cursor: pointer;color: white;transition: background-color 0.5s ease;" id="indivRunner" onclick="stop('
+        result += '">00:00:00</p></td> <td style="padding : 5px; text-align: center; "> <button style = "text-align: center; font-weight: bold;padding: 10px 20px;width: 70%; border-style: solid; font-size: 100%; border-radius: 10px;border-color: white;cursor: pointer;color: white;transition: background-color 0.5s ease;" id="indivRunner" onclick="stop('
         result += i;
         result += ')">Stop</button> </td> </tr>'
 	}
