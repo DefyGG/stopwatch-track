@@ -79,8 +79,10 @@ section {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 30rem;
-    height: 30rem;
+    width: 75vmin;
+    height: 75vmin;
+    max-width: 315px;
+    max-height: 315px;
     border-radius: 50%;
     -webkit-box-shadow: 0px 0px 15px 10px var(--color-shadow); 
     box-shadow: 0px 0px 15px 10px var(--color-shadow);
@@ -90,8 +92,10 @@ section {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 26rem;
-    height: 26rem;
+    width: 65vmin;
+    height: 65vmin;
+    max-width: 273px;
+    max-height: 273px;
     border-radius: 50%;
     background-color: var(--color-secondary);
     position: relative;
@@ -113,7 +117,9 @@ section {
 }
 
 .time p {
-    font-size: 5.6rem;
+    font-size: min(55px,12vmin);
+    /* max-fon: 5px; */
+
 }
 
 .time p:nth-of-type(2) {

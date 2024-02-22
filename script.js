@@ -94,7 +94,7 @@ function addRunner(numRunners){
         result += i; 
         result += '</b></p></td> <td style="padding : 10px; text-align: center;"><p id="display'
         result += i; 
-        result += '">00:00:00</p></td> <td style="padding : 10px; text-align: center; "> <button style = "font-size: 1.5rem;font-weight: bold;padding: 10px 20px;min-width: 100px;border-style: solid;border-radius: 10px;border-color: white;cursor: pointer;color: white;transition: background-color 0.5s ease;" id="indivRunner" onclick="stop('
+        result += '">00:00:00</p></td> <td style="padding : 10px; text-align: center; "> <button style = "font-size: 1.5rem;font-weight: bold;padding: 10px 20px;width: 100%; border-style: solid; font-size: 100%; border-radius: 10px;border-color: white;cursor: pointer;color: white;transition: background-color 0.5s ease;" id="indivRunner" onclick="stop('
         result += i;
         result += ')">Stop</button> </td> </tr>'
 	}
