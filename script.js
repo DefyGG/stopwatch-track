@@ -3,11 +3,12 @@
 let display = document.querySelectorAll('[id^=display]');
 
 let runners = {1: true};
+let runnerslap = {1: []};
 let timer = null;
 let startTime = 0;
 let elapsedTime = 0;
 let isRunning = false;
-
+let n = 1;
 function convert(elapsedTime){
     let minutes = Math.floor(elapsedTime / (1000 * 60) % 60);
     let seconds = Math.floor(elapsedTime / 1000 % 60);
@@ -27,7 +28,20 @@ function start(){
         isRunning = true;
     }
 }
+function lap(id){
+    if (runnerslap[id] == undefined){
+        runnerslap[id] = [];
+    }
+    if (runners[id] == true && isRunning){
+        selectedRunner = document.getElementById("display" + id);
+        console.log("Lapping runner " + id);
+        let [minutes, seconds, milliseconds] = convert(Date.now() - startTime);
+        runnerslap[id].push(`${minutes}:${seconds}:${milliseconds}`);
+        addRunner(n);
+        // selectedRunner.textContent = `${minutes}:${seconds}:${milliseconds}`;
+    }
 
+}
 function stop(id){
 
     if (id == -1){
@@ -48,6 +62,7 @@ function stop(id){
     
             selectedRunner.textContent = `${minutes}:${seconds}:${milliseconds}`;
             runners[id] = false;
+            
         }
         
     }
@@ -65,6 +80,10 @@ function reset(){
     for (var key in runners){
         runners[key] = true;
     }
+    for (var key in runnerslap){
+        runnerslap[key] = [];
+    }
+    addRunner(n);
 }
 
 function update(){
@@ -84,20 +103,34 @@ function update(){
 }
 
 function addRunner(numRunners){
+    n = numRunners;
     runners = {}
     for (let i = 1; i <= numRunners; i++){
         runners[i] = true;
     }
+    console.log(runnerslap);
     let result = '<table style="border-radius: 20px;border:2px solid white;margin-left:auto;margin-right:auto;table-layout: fixed;width: 100%;" border=1> ';
 
 	for (let i = 1; i <= numRunners; i++) {
-		result += '<tr style = "border-color: transparent; "><td style="padding : 10px; text-align: center;"><p><b>Runner ';
+		result += '<tr style = "border-color: transparent; "><td style="text-align: center;"><input style = "font-weight: bold; text-align: center; font-size: 100%;width: 100%;background: transparent; border:0px; color:white; "value = "Runner ';
+        result += i;    
+        result += '"></input> <p id="display'
         result += i; 
-        result += '</b></p></td> <td style="padding : 10px; text-align: center;"><p id="display'
-        result += i; 
-        result += '">00:00:00</p></td> <td style="padding : 5px; text-align: center; "> <button style = "text-align: center; font-weight: bold;padding: 10px 20px;width: 70%; border-style: solid; font-size: 100%; border-radius: 10px;border-color: white;cursor: pointer;color: white;transition: background-color 0.5s ease;" id="indivRunner" onclick="stop('
+        result += '">00:00:00</p></td> <td style=" text-align: center;"><button style = "text-align: center; font-weight: bold;padding-top:5px; padding-bottom:5px; width: 70%; border-style: solid; font-size: 100%; border-radius: 10px;border-color: white;cursor: pointer;color: white;transition: background-color 0.5s ease;" id="indivRunner" onclick="lap('
         result += i;
-        result += ')">Stop</button> </td> </tr>'
+        result += ')">Lap</button>';
+        result += '</td> <td style="text-align: center; "> <button style = "text-align: center; font-weight: bold; height: 100%;padding-top:5px; padding-bottom:5px; width: 70%; border-style: solid; font-size: 100%; border-radius: 10px;border-color: white;cursor: pointer;color: white;transition: background-color 0.5s ease;" id="indivRunner" onclick="stop('
+        result += i;
+        result += ')">Stop</button> </td> </tr><tr style = "border-top: 5px solid white; "><td style = "border-left: none; border-right: none; border-bottom: 1px solid white;"></td><td style = "border-left: none; border-right: none; border-bottom: 1px solid white; text-align: center"><ul style="color: white; text-align: center; list-style-type:none;">';
+
+        if (runnerslap[i] !== undefined) {
+            runnerslap[i].forEach(lapTime => {
+                result += '<li>' + lapTime + '</li>';
+            });
+        }
+
+        result += '</ul></td><td style = "border-left: none; border-right: none; border-bottom: 1px solid white; padding-bottom: 1px;"></td></tr>';
+     
 	}
 	result += "</table>";
     document.getElementsByClassName('scheds')[0].innerHTML = result;
