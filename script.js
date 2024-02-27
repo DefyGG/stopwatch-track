@@ -4,6 +4,7 @@ let display = document.querySelectorAll('[id^=display]');
 
 let runners = {1: true};
 let runnerslap = {1: []};
+let endTime = {1: 0}
 let timer = null;
 let startTime = 0;
 let elapsedTime = 0;
@@ -37,7 +38,7 @@ function lap(id){
         console.log("Lapping runner " + id);
         let [minutes, seconds, milliseconds] = convert(Date.now() - startTime);
         runnerslap[id].push(`${minutes}:${seconds}:${milliseconds}`);
-        addRunner(n);
+        addRunner(-1*n);
         // selectedRunner.textContent = `${minutes}:${seconds}:${milliseconds}`;
     }
 
@@ -53,12 +54,21 @@ function stop(id){
         for (var key in runners){
             runners[key] = false;
         }
+        for (var keys in endTime){
+            if (endTime[keys] == 0){
+                time = convert(Date.now() - startTime);
+                let [minutes, seconds, milliseconds] = time;
+                endTime[keys] = `${minutes}:${seconds}:${milliseconds}`;
+            }
+        }
     }
     else{
         if (runners[id] == true && isRunning){
+            time = convert(Date.now() - startTime);
+            let [minutes, seconds, milliseconds] = time;
+            endTime[id] = `${minutes}:${seconds}:${milliseconds}`;
             selectedRunner = document.getElementById("display" + id);
             console.log("Stopping runner " + id);
-            let [minutes, seconds, milliseconds] = convert(Date.now() - startTime);
     
             selectedRunner.textContent = `${minutes}:${seconds}:${milliseconds}`;
             runners[id] = false;
@@ -83,7 +93,10 @@ function reset(){
     for (var key in runnerslap){
         runnerslap[key] = [];
     }
-    addRunner(n);
+    for (var key in endTime){
+        endTime[key] = 0;
+    }
+    addRunner(-1 * n);
 }
 
 function update(){
@@ -103,11 +116,20 @@ function update(){
 }
 
 function addRunner(numRunners){
-    n = numRunners;
-    runners = {}
-    for (let i = 1; i <= numRunners; i++){
-        runners[i] = true;
+    if (numRunners > 0){
+        runners={};
+        for (let i = 1; i<=numRunners; i++){
+            runners[i] = true;
+        }
+        endTime = {};
+        for (let i = 1; i<=numRunners; i++){
+            endTime[i] = 0;
+        }
     }
+    else{
+        numRunners *= -1;
+    }
+    n = numRunners;
     console.log(runnerslap);
     let result = '<table style="border-radius: 20px;border:2px solid white;margin-left:auto;margin-right:auto;table-layout: fixed;width: 100%;" border=1> ';
 
@@ -116,7 +138,17 @@ function addRunner(numRunners){
         result += i;    
         result += '"></input> <p id="display'
         result += i; 
-        result += '">00:00:00</p></td> <td style=" text-align: center;"><button style = "text-align: center; font-weight: bold;padding-top:5px; padding-bottom:5px; width: 70%; border-style: solid; font-size: 100%; border-radius: 10px;border-color: white;cursor: pointer;color: white;transition: background-color 0.5s ease;" id="indivRunner" onclick="lap('
+        result += '">'
+        console.log(i);
+        console.log(endTime[i]);
+        if (endTime[i] != 0){
+            result += endTime[i];
+        }
+        else {
+            result += '00:00:00';
+        }
+        
+        result += '</p></td> <td style=" text-align: center;"><button style = "text-align: center; font-weight: bold;padding-top:5px; padding-bottom:5px; width: 70%; border-style: solid; font-size: 100%; border-radius: 10px;border-color: white;cursor: pointer;color: white;transition: background-color 0.5s ease;" id="indivRunner" onclick="lap('
         result += i;
         result += ')">Lap</button>';
         result += '</td> <td style="text-align: center; "> <button style = "text-align: center; font-weight: bold; height: 100%;padding-top:5px; padding-bottom:5px; width: 70%; border-style: solid; font-size: 100%; border-radius: 10px;border-color: white;cursor: pointer;color: white;transition: background-color 0.5s ease;" id="indivRunner" onclick="stop('
