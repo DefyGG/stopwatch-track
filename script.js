@@ -66,7 +66,7 @@ function stop(id){
         if (runners[id] == true && isRunning){
             time = convert(Date.now() - startTime);
             let [minutes, seconds, milliseconds] = time;
-            endTime[id] = `${minutes}:${seconds}:${milliseconds}`;
+            endTime[keys] = `${minutes}:${seconds}:${milliseconds}`;
             selectedRunner = document.getElementById("display" + id);
             console.log("Stopping runner " + id);
     
@@ -148,10 +148,10 @@ function addRunner(numRunners){
             result += '00:00:00';
         }
         
-        result += '</p></td> <td style=" text-align: center;"><button style = "text-align: center; font-weight: bold;padding-top:5px; padding-bottom:5px; width: 70%; border-style: solid; font-size: 100%; border-radius: 10px;border-color: white;cursor: pointer;color: white;transition: background-color 0.5s ease;" id="indivRunner" onclick="lap('
+        result += '</p></td> <td style=" text-align: center;"><button style = "text-align: center; font-weight: bold;padding-top:5px; padding-bottom:5px; width: 70%; border-style: solid; font-size: 100%; border-radius: 10px;border-color: white;cursor: pointer;color: white;" id="indivRunner" onclick="lap('
         result += i;
         result += ')">Lap</button>';
-        result += '</td> <td style="text-align: center; "> <button style = "text-align: center; font-weight: bold; height: 100%;padding-top:5px; padding-bottom:5px; width: 70%; border-style: solid; font-size: 100%; border-radius: 10px;border-color: white;cursor: pointer;color: white;transition: background-color 0.5s ease;" id="indivRunner" onclick="stop('
+        result += '</td> <td style="text-align: center; "> <button style = "text-align: center; font-weight: bold; height: 100%;padding-top:5px; padding-bottom:5px; width: 70%; border-style: solid; font-size: 100%; border-radius: 10px;border-color: white;cursor: pointer;color: white;" id="indivRunner" onclick="stop('
         result += i;
         result += ')">Stop</button> </td> </tr><tr style = "border-top: 5px solid white; "><td style = "border-left: none; border-right: none; border-bottom: 1px solid white;"></td><td style = "border-left: none; border-right: none; border-bottom: 1px solid white; text-align: center"><ul style="color: white; text-align: center; list-style-type:none;">';
 
