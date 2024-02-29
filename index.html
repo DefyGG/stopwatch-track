@@ -19,6 +19,7 @@
 
 
 </head>
+
 <body>
     <section>
 
@@ -26,7 +27,7 @@
             <div class="controls", style = "margin: 10%;">
                 <h2 style = "color:white; font-size: min(25px, 6vmin);">Number of Runners: <input onChange="reset(); addRunner(this.value);" style = "color: white; background-color: transparent; border-color: white; border-radius: 5px; max-height: 30px; max-width:30px; width:7vmin; height:7vmin; text-align:center; font-size: min(25px, 5vmin)" id="tentacles" name="tentacles" min="1" max="100" value = "1" /> </h2>
                 
-
+ 
             </div>
             <div class="timer">
                 <div class="circle">
@@ -42,33 +43,31 @@
             
             <div class="controls">
                 <button style = "min-width: 25%" id="startBtn" onclick="start()">Start</button>
-                <button style = "min-width: 25%"  id="stopBtn" onclick="stop(-1)">Stop</button>
-                <button style = "min-width: 25%"  id="resetBtn" onclick="reset()">Reset</button>
+                <button style = "min-width: 25%"  id="stopBtn" onclick="stop(-1)">Stop</button>                
+                <button style = "min-width: 25%"  id="resetBtn" onclick=" stop(-1);checkSave();">Reset</button>
             </div>
             <br>
             <div class="align-items-center scheds "></div>
-            <!-- <table style="border-radius: 20px;border:2px solid white;margin-left:auto;margin-right:auto;table-layout: fixed;width: 100%;" border=1> 
-                <tr style = "border-color: transparent; ">
-                    <td style="padding : 10px; text-align: center;"><p><b>Runner 1</b></p></td>  
-                    <td style="padding : 10px; text-align: center;"><p id="display1">00:00:00</p></td> 
-                    <td style="padding : 10px; text-align: center; "> <button style = "font-size: 1.5rem;
-                        font-weight: bold;
-                        padding: 10px 20px;
+
             
-                        min-width: 100px;
-                        /* border: none; */
-                        border-style: solid;
-                        border-radius: 10px;
-                     
-                        /* background-color: hsl(235, 36%, 35%); */
-                        border-color: white;
-                        cursor: pointer;
-                        color: white;
-                        transition: background-color 0.5s ease;" id="indivRunner" onclick="stop(1)">Stop</button> </td> 
-                </tr>
-            </table> -->
         </div>
-    </section>
+        
+        
+    <!-- </section> -->
+    <div id="myModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content" style = "border-radius: 10px;">
+          <span class="close">&times;</span>
+          <h2 style = "text-align: center;">How do you want to save the results?</h2>
+          <br>
+          <div style = "align-items: center;">
+            <button style = "width: 40%; text-align: center;" id="startBtn" onclick="download()">Download</button>
+            <button style = "width: 40%; text-align: center;" id="startBtn" onclick="share()">Share</button>
+          </div>
+        </div>
+      
+      </div>
 
     <!-- SCRIPT -->
     <script src="./script.js"></script>

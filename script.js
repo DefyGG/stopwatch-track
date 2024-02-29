@@ -9,7 +9,12 @@ let timer = null;
 let startTime = 0;
 let elapsedTime = 0;
 let isRunning = false;
+let runnersname = {1: "Runner 1"};
 let n = 1;
+
+var modal = document.getElementById("myModal");
+var span = document.getElementsByClassName("close")[0];
+
 function convert(elapsedTime){
     let minutes = Math.floor(elapsedTime / (1000 * 60) % 60);
     let seconds = Math.floor(elapsedTime / 1000 % 60);
@@ -22,6 +27,24 @@ function convert(elapsedTime){
     return [minutes, seconds, milliseconds]
 }
 
+function generateRunnerInfo() {
+    let runnerInfo = "";
+    for (let i = 1; i <= n; i++) {
+        runnerInfo += `${runnersname[i]}: \n`;
+        if (runnerslap[i] !== undefined) {
+            runnerslap[i].forEach((lapTime, index) => {
+                runnerInfo += `Lap ${index + 1}: ${lapTime}\n`;
+            });
+        }
+        if (endTime[i] !== 0) {
+            runnerInfo += `Final Stop Time: ${endTime[i]}\n`;
+        }
+        runnerInfo += "\n";
+    }
+
+    return runnerInfo;
+
+}
 function start(){
     if(!isRunning){
         startTime = Date.now() - elapsedTime;
@@ -42,6 +65,25 @@ function lap(id){
         // selectedRunner.textContent = `${minutes}:${seconds}:${milliseconds}`;
     }
 
+}
+function download() {
+    const runnerInfo = generateRunnerInfo();
+    const filename = "runner_info.txt";
+    const element = document.createElement("a");
+    const file = new Blob([runnerInfo], { type: "text/plain" });
+    element.href = URL.createObjectURL(file);
+    element.download = filename;
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+}
+function share() {
+    console.log("Sharing")
+    const runnerInfo = generateRunnerInfo();
+    const subject = "Runner Times";
+    const emailBody = encodeURIComponent(runnerInfo);
+    const emailLink = `mailto:?subject=${subject}&body=${emailBody}`;
+    window.location.href = emailLink;
 }
 function stop(id){
 
@@ -66,7 +108,7 @@ function stop(id){
         if (runners[id] == true && isRunning){
             time = convert(Date.now() - startTime);
             let [minutes, seconds, milliseconds] = time;
-            endTime[keys] = `${minutes}:${seconds}:${milliseconds}`;
+            endTime[id] = `${minutes}:${seconds}:${milliseconds}`;
             selectedRunner = document.getElementById("display" + id);
             console.log("Stopping runner " + id);
     
@@ -115,7 +157,19 @@ function update(){
     }
 }
 
+function changeName(id, name){
+    console.log(id, name);
+    runnersname[id] = name;
+}
+function checkSave(){
+    modal.style.display = "block";
+}
 function addRunner(numRunners){
+    for (let i = 1; i<=numRunners; i++){
+        if (runnersname[i] == undefined){
+            runnersname[i] = "Runner " + i;
+        }
+    }
     if (numRunners > 0){
         runners={};
         for (let i = 1; i<=numRunners; i++){
@@ -134,13 +188,12 @@ function addRunner(numRunners){
     let result = '<table style="border-radius: 20px;border:2px solid white;margin-left:auto;margin-right:auto;table-layout: fixed;width: 100%;" border=1> ';
 
 	for (let i = 1; i <= numRunners; i++) {
-		result += '<tr style = "border-color: transparent; "><td style="text-align: center;"><input style = "font-weight: bold; text-align: center; font-size: 100%;width: 100%;background: transparent; border:0px; color:white; "value = "Runner ';
-        result += i;    
+		result += '<tr style = "border-color: transparent; "><td style="text-align: center;"><input onChange = "changeName(' + i +  ',this.value)" style = "font-weight: bold; text-align: center; font-size: 100%;width: 100%;background: transparent; border:0px; color:white; "value = "';
+        result += runnersname[i];    
         result += '"></input> <p id="display'
         result += i; 
         result += '">'
-        console.log(i);
-        console.log(endTime[i]);
+        // console.log(i, endTime[i])
         if (endTime[i] != 0){
             result += endTime[i];
         }
@@ -153,7 +206,18 @@ function addRunner(numRunners){
         result += ')">Lap</button>';
         result += '</td> <td style="text-align: center; "> <button style = "text-align: center; font-weight: bold; height: 100%;padding-top:5px; padding-bottom:5px; width: 70%; border-style: solid; font-size: 100%; border-radius: 10px;border-color: white;cursor: pointer;color: white;" id="indivRunner" onclick="stop('
         result += i;
-        result += ')">Stop</button> </td> </tr><tr style = "border-top: 5px solid white; "><td style = "border-left: none; border-right: none; border-bottom: 1px solid white;"></td><td style = "border-left: none; border-right: none; border-bottom: 1px solid white; text-align: center"><ul style="color: white; text-align: center; list-style-type:none;">';
+        result += ')">Stop</button> </td> </tr><tr style = "border-top: 5px solid white; "><td style = "border-left: none; border-right: none; border-bottom: 1px solid white;">';
+        result += '<ul style="color: white; text-align: center; list-style-type:none;">';
+
+        if (runnerslap[i] !== undefined) {
+            runnerslap[i].forEach((lapTime, index) => {
+                result += '<li>Lap ' + (index + 1) +  '</li>';
+            });
+        }
+
+        result += '</ul>';
+        
+        result += '<td style = "border-left: none; border-right: none; border-bottom: 1px solid white; text-align: center"><ul style="color: white; text-align: center; list-style-type:none;">';
 
         if (runnerslap[i] !== undefined) {
             runnerslap[i].forEach(lapTime => {
@@ -169,3 +233,17 @@ function addRunner(numRunners){
     display = document.querySelectorAll('[id^=display]');
 }
 addRunner(1);
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+    modal.style.display = "none";
+    reset();
+  }
+  
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+if (event.target == modal) {
+    modal.style.display = "none";
+    reset();
+}
+}
