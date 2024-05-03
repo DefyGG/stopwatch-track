@@ -83,7 +83,8 @@ function share() {
     const subject = "Runner Times";
     const emailBody = encodeURIComponent(runnerInfo);
     const emailLink = `mailto:?subject=${subject}&body=${emailBody}`;
-    window.location.href = emailLink;
+    const phoneLink = `sms:?&body=${emailBody}`;
+    window.location.href = phoneLink;
 }
 function stop(id){
 
