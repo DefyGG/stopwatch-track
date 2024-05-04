@@ -197,7 +197,7 @@ section {
 .modal-content button{
     font-size: 1.5rem;
     font-weight: bold;
-    padding: 10px 20px;
+    padding: 10px 20px; 
     margin: 5px;
     min-width: 100px;
     /* border: none; */

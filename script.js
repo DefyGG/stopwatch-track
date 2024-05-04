@@ -26,6 +26,10 @@ function convert(elapsedTime){
     milliseconds = String(milliseconds).padStart(2, "0");
     return [minutes, seconds, milliseconds]
 }
+function reverseconvert(time){
+    let [minutes, seconds, milliseconds] = time.split(":");
+    return (parseInt(minutes) * 60 * 1000) + (parseInt(seconds) * 1000) + (parseInt(milliseconds) * 10);
+}
 
 function generateRunnerInfo() {
     let runnerInfo = "";
@@ -221,12 +225,26 @@ function addRunner(numRunners){
         result += '<td style = "border-left: none; border-right: none; border-bottom: 1px solid white; text-align: center"><ul style="color: white; text-align: center; list-style-type:none;">';
 
         if (runnerslap[i] !== undefined) {
+            for (let j = 0; j < runnerslap[i].length; j++){
+                if (j-1 >= 0){
+                    let [minutes, seconds, milliseconds] = convert(reverseconvert(runnerslap[i][j]) - reverseconvert(runnerslap[i][j-1]));
+                    result += '<li>' + `${minutes}:${seconds}:${milliseconds}` + '</li>';
+                }
+                else{
+                    result += '<li>' + runnerslap[i][j] + '</li>';
+                }    
+            }
+        }
+        result += '</ul>';
+        
+        result += '</td><td style = "border-left: none; border-right: none; border-bottom: 1px solid white; padding-bottom: 1px;"><ul style="color: white; text-align: center; list-style-type:none;">';
+        if (runnerslap[i] !== undefined) {
             runnerslap[i].forEach(lapTime => {
-                result += '<li>' + lapTime + '</li>';
+                result += '<li>(' + lapTime + ')</li>';
             });
         }
-
-        result += '</ul></td><td style = "border-left: none; border-right: none; border-bottom: 1px solid white; padding-bottom: 1px;"></td></tr>';
+        result += '</ul>';
+        result += '</td></tr>';
      
 	}
 	result += "</table>";
