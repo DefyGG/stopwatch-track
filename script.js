@@ -36,9 +36,16 @@ function generateRunnerInfo() {
     for (let i = 1; i <= n; i++) {
         runnerInfo += `${runnersname[i]}: \n`;
         if (runnerslap[i] !== undefined) {
-            runnerslap[i].forEach((lapTime, index) => {
-                runnerInfo += `Lap ${index + 1}: ${lapTime}\n`;
-            });
+            for (let j = 0; j < runnerslap[i].length; j++){
+                if (j-1 >= 0){
+                    let [minutes, seconds, milliseconds] = convert(reverseconvert(runnerslap[i][j]) - reverseconvert(runnerslap[i][j-1]));
+                    runnerInfo += `Lap ${j + 1}:` + ` ${minutes}:${seconds}:${milliseconds}` + ` (${runnerslap[i][j]})\n`;
+                }
+                else{
+                    runnerInfo += `Lap ${j + 1}: ${runnerslap[i][j]}\n`;
+                }    
+            }
+
         }
         if (endTime[i] !== 0) {
             runnerInfo += `Final Stop Time: ${endTime[i]}\n`;
