@@ -48,7 +48,14 @@ function generateRunnerInfo() {
 
         }
         if (endTime[i] !== 0) {
-            runnerInfo += `Final Stop Time: ${endTime[i]}\n`;
+            if (runnerslap[i].length > 0){
+                let [minutes, seconds, milliseconds] = convert(reverseconvert(endTime[i]) - reverseconvert(runnerslap[i][runnerslap[i].length - 1]) );
+                runnerInfo += `Final Stop Time: ${minutes}:${seconds}:${milliseconds} (${endTime[i]})\n`;
+            }
+            else{
+                runnerInfo += `Final Stop Time: ${endTime[i]}\n`;
+            }    
+            
         }
         runnerInfo += "\n";
     }
