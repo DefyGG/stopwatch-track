@@ -119,7 +119,14 @@ function stop(id){
             if (endTime[keys] == 0){
                 time = convert(Date.now() - startTime);
                 let [minutes, seconds, milliseconds] = time;
-                endTime[keys] = `${minutes}:${seconds}:${milliseconds}`;
+                if (runnerslap[keys] !== undefined && runnerslap[keys].length > 0){
+                    let [lapminutes, lapseconds, lapmilliseconds] = convert(reverseconvert(endTime[keys]) - reverseconvert(runnerslap[keys][runnerslap[keys].length - 1]) );
+                    endTime[keys] = `${lapminutes}:${lapseconds}:${lapmilliseconds}` + ` (${minutes}:${seconds}:${milliseconds})`;
+                }
+                else{
+                    endTime[keys] = `${minutes}:${seconds}:${milliseconds}`;
+                }
+                
             }
         }
     }
@@ -130,8 +137,14 @@ function stop(id){
             endTime[id] = `${minutes}:${seconds}:${milliseconds}`;
             selectedRunner = document.getElementById("display" + id);
             console.log("Stopping runner " + id);
-    
-            selectedRunner.textContent = `${minutes}:${seconds}:${milliseconds}`;
+            if (runnerslap[id] !== undefined && runnerslap[id].length > 0){
+                let [lapminutes, lapseconds, lapmilliseconds] = convert(reverseconvert(endTime[id]) - reverseconvert(runnerslap[id][runnerslap[id].length - 1]) );
+                selectedRunner.textContent = `${lapminutes}:${lapseconds}:${lapmilliseconds}` + ` (${minutes}:${seconds}:${milliseconds})`;
+            }
+            else{
+                selectedRunner.textContent = `${minutes}:${seconds}:${milliseconds}`;
+            }
+        
             runners[id] = false;
             
         }
